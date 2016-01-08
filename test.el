@@ -7,30 +7,52 @@
 (defun assoc-first-value (symbol list)
   (car (cdr (assoc symbol list))))
 
+(defun concat-string-list (ss) (apply #'concat ss))
+
 (defun org-rtm-print-list (rtml)
   (progn
     (concat
      "* "
      (assoc-value 'name (car (cdr rtml))))))
 
+(defun org-rtm-format-note (note)
+  (nth 2 note))
+
+(defun org-rtm-format-notes (notes-list)
+  (cond (
+	 (equal (length notes-list) 0)
+	 "")
+	 (t (concat "\n" (mapconcat 'org-rtm-format-note notes-list "\n")))))
+
 (defun org-rtm-print-entry (e)
   (let*
       ((topAssocList (cdr e))
-       (taskAssocList (car topAssocList)))
+       (taskAssocList (car topAssocList))
+       (notes-list (nthcdr 2 (assoc 'notes topAssocList))))
     (progn
-;      (print taskAssocList)
-      (print (assoc 'notes topAssocList))
       (concat
        "** "
        (assoc-value 'name taskAssocList)
-       " notes: "
-       (assoc-first-value 'notes topAssocList)
-       ))))
+       (org-rtm-format-notes notes-list)))))
+
+(defun org-rtm-format-list-entries (list-id)
+  (mapconcat 'org-rtm-print-entry (nthcdr 2 (car (rtm-tasks-get-list list-id "status:incomplete"))) "\n"))
+
+(defun org-rtm-format-list (list-id list-name)
+  (progn
+    (print list-id)
+    (concat "* " list-name "\n" (org-rtm-format-list-entries list-id))))
+
+(defun org-rtm-format-lists ()
+  (mapcar (lambda (list) (org-rtm-format-list (assoc-value 'id (nth 1 list)) (assoc-value 'name (nth 1 list)))) (rtm-lists-get-list)))
+
+(org-rtm-format-lists)
+
+((list ((id . "35104378") (name . "Inbox") (deleted . "0") (locked . "1") (archived . "0") (position . "-1") (smart . "0") (sort_order . "0"))) (list ((id . "35104382") (name . "Sent") (deleted . "0") (locked . "1") (archived . "0") (position . "1") (smart . "0") (sort_order . "0"))))
+
 
 ; map headlines
 (mapcar 'org-rtm-print-list (rtm-lists-get-list))
-
-(mapcar 'org-rtm-print-entry (cdr (cdr (car (rtm-tasks-get-list nil "status:incomplete")))))
 
 (rtm-tasks-get-list nil "status:incomplete")
 ((list ((id . "35104378")) (taskseries (... ... ... ... ... ... ...) (tags nil) (participants nil) (notes nil ...) (task ...)) (taskseries (... ... ... ... ... ... ...) (tags nil) (participants nil) (notes nil) (task ...))))
