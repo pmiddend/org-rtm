@@ -1,3 +1,5 @@
+; TODO: CREATED: [...]
+; TODO: SCHEDULED: [...] ggf.
 (add-to-list 'load-path ".")
 (require 'rtm)
 
@@ -46,28 +48,22 @@
 (defun org-rtm-format-lists ()
   (mapcar (lambda (list) (org-rtm-format-list (assoc-value 'id (nth 1 list)) (assoc-value 'name (nth 1 list)))) (rtm-lists-get-list)))
 
+(defun org-rtm-complete-items (list-id)
+  (mapcar
+   (lambda (taskseries-w-task)
+     (rtm-tasks-complete list-id (car taskseries-w-task) (cdr taskseries-w-task)))
+   (org-rtm-retrieve-taskseries-id-with-task-list list-id)))
+
+(defun org-rtm-retrieve-taskseries-id-with-task-list (list-id)
+  (mapcar
+   (lambda (list)
+     `(,(assoc-value 'id (nth 1 list)) . ,(assoc-value 'id (car (assoc-value 'task (nthcdr 2 list))))))
+   (nthcdr 2 (car (rtm-tasks-get-list list-id "status:incomplete")))))
+
+(defun org-rtm-retrieve-list-ids ()
+  (mapcar (lambda (list) (assoc-value 'id (nth 1 list))) (rtm-lists-get-list)))
+
+(org-rtm-retrieve-list-ids)
 (org-rtm-format-lists)
-
-((list ((id . "35104378") (name . "Inbox") (deleted . "0") (locked . "1") (archived . "0") (position . "-1") (smart . "0") (sort_order . "0"))) (list ((id . "35104382") (name . "Sent") (deleted . "0") (locked . "1") (archived . "0") (position . "1") (smart . "0") (sort_order . "0"))))
-
-
-; map headlines
-(mapcar 'org-rtm-print-list (rtm-lists-get-list))
-
-(rtm-tasks-get-list nil "status:incomplete")
-((list ((id . "35104378")) (taskseries (... ... ... ... ... ... ...) (tags nil) (participants nil) (notes nil ...) (task ...)) (taskseries (... ... ... ... ... ... ...) (tags nil) (participants nil) (notes nil) (task ...))))
-
-
-((id . "277526819") (created . "2016-01-07T15:45:34Z") (modified . "2016-01-07T15:45:42Z") (name . "mitnotiz") (source . "js") (url . "") (location_id . ""))
-
-((id . "264970492") (created . "2015-07-09T21:37:49Z") (modified . "2015-07-09T21:37:49Z") (name . "Chor Sarah Maschsee") (source . "android") (url . "") (location_id . ""))
-
-((id . "277526238") (created . "2016-01-07T15:35:50Z") (modified . "2016-01-07T15:35:50Z") (name . "zweiter") (source . "js") (url . "") (location_id . ""))
-("** mitnotiz" "** Chor Sarah Maschsee" "** zweiter")
-
-
-(rtm-tasks-get-list "35104378")
-
-
-
+(org-rtm-complete-items "35104378")
 
