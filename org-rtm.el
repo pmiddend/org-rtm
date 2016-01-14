@@ -40,6 +40,7 @@ the import process is working well."
 (defun org-rtm-format-time-to-org (time-value)
   "Convert an ISO date time to the org-mode time format. 
 I didn't find built-in function to accomplish this."
+  (print (length time-value))
   (format-time-string (cdr org-time-stamp-formats) (date-to-time time-value)))
 
 (defun org-rtm-print-entry (e)
@@ -53,7 +54,7 @@ I didn't find built-in function to accomplish this."
       (concat
        "** TODO "
        (org-rtm-assoc-value 'name taskAssocList)
-       (if due (concat "\nSCHEDULED: " (org-rtm-format-time-to-org due))
+       (if (not (or (eq due nil) (string= due ""))) (concat "\nSCHEDULED: " (org-rtm-format-time-to-org due)))
        (if (org-rtm-assoc-value 'url taskAssocList) (concat "\n" (org-rtm-assoc-value 'url taskAssocList)) "")
        (org-rtm-format-notes notes-list)))))
 
@@ -64,7 +65,6 @@ I didn't find built-in function to accomplish this."
 (defun org-rtm-format-list (list-id list-name)
   "Format a single list as a top-level org-mode segment starting with *"
   (progn
-    (print list-id)
     (concat "* " list-name "\n" (org-rtm-format-list-entries list-id))))
 
 (defun org-rtm-format-lists ()
