@@ -35,18 +35,25 @@ the import process is working well."
 (defun org-rtm-format-notes (notes-list)
   "Format a list of RTM task notes and concatenate to string"
   (cond ((equal (length notes-list) 0) "")
-	 (t (concat "\n" (mapconcat 'org-rtm-format-note notes-list "\n")))))
+	(t (concat "\n" (mapconcat 'org-rtm-format-note notes-list "\n")))))
+
+(defun org-rtm-format-time-to-org (time-value)
+  "Convert an ISO date time to the org-mode time format. 
+I didn't find built-in function to accomplish this."
+  (format-time-string (cdr org-time-stamp-formats) (date-to-time time-value)))
 
 (defun org-rtm-print-entry (e)
   "Format a single RTM task and output as second level org segment (starting with **)"
   (let*
       ((topAssocList (cdr e))
        (taskAssocList (car topAssocList))
+       (due (org-rtm-assoc-value 'due (car (org-rtm-assoc-value 'task topAssocList))))
        (notes-list (nthcdr 2 (assoc 'notes topAssocList))))
     (progn
       (concat
        "** TODO "
        (org-rtm-assoc-value 'name taskAssocList)
+       (if due (concat "\nSCHEDULED: " (org-rtm-format-time-to-org due))
        (if (org-rtm-assoc-value 'url taskAssocList) (concat "\n" (org-rtm-assoc-value 'url taskAssocList)) "")
        (org-rtm-format-notes notes-list)))))
 
