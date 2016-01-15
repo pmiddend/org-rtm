@@ -34,7 +34,7 @@
 
 ;;; Code:
 
-(eval-when-compile (require 'cl))
+(eval-when-compile (require 'cl-lib))
 (require 'url-http)
 (require 'url-util)
 (require 'xml)
