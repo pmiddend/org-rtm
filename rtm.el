@@ -532,13 +532,13 @@ application:\n\n")
 
 ;; adapted from avdi's code:
 (defun rtm-api-sig (params)
-  (let* ((param-copy (copy-list params))
+  (let* ((param-copy (cl-copy-list params))
          (sorted-params (sort param-copy
                               (lambda (lhs rhs) (string< (car lhs) (car rhs)))))
          (joined-params (mapcar (lambda (param)
                                   (concat (car param) (cdr param)))
                                 sorted-params))
-         (params-str (reduce 'concat joined-params))
+         (params-str (cl-reduce 'concat joined-params))
          (with-secret (concat rtm-api-shared-secret params-str)))
     (md5 with-secret)))
 
@@ -618,7 +618,7 @@ application:\n\n")
 
 ;; from avdi's code:
 (defun rtm-join-params (params)
-  (reduce (lambda (left right) (concat left "&" right)) params))
+  (cl-reduce (lambda (left right) (concat left "&" right)) params))
 
 ;; adapted from avdi's code:
 (defun rtm-construct-url (method)
