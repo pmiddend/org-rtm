@@ -109,7 +109,7 @@ API Kit"
                                ,@(mapcar (lambda (sym)
                                            `(cons ,(symbol-name sym) ,sym))
                                          ;; remove lambda keywords
-                                         (remove-if (lambda (sym)
+                                         (cl-remove-if (lambda (sym)
                                                       (or (eq sym '&optional)
                                                           (eq sym '&rest)))
                                                     parms))))))
@@ -188,7 +188,7 @@ API Kit"
          params))
 
 (defun rtm-get-nodes-from-node-list (node-name node-list)
-  (remove-if-not (lambda (el) (eq node-name
+  (cl-remove-if-not (lambda (el) (eq node-name
                                   (xml-node-name el)))
                  node-list))
 
@@ -590,7 +590,7 @@ application:\n\n")
 
 
 (defun rtm-weed-empty-params (params)
-  (remove-if (lambda (param)
+  (cl-remove-if (lambda (param)
                (and (listp param)
                     (not (null param))
                     (null (cdr param))))
