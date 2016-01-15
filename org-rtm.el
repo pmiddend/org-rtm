@@ -1,10 +1,18 @@
-;;; org-rtm.el --- Primitive import/export plugin for rememberthemilk tasks to org-mode
-;; Copyright (C) 2016 Philipp Middendorf
+;;; org-rtm.el --- Simple import/export from rememberthemilk to org-mode
+;; Copyright (c) 2016 Philipp Middendorf
 ;; Author: Philipp Middendorf <pmidden@secure.mailbox.org>
 ;; Created: 15 Jan 2016
 ;; Keywords: outlines, data
 ;; Homepage: https://github.com/pmiddend/org-rtm
+
+;; This product uses the Remember The Milk API but is not endorsed or
+;; certified by Remember The Milk
+
 ;; This file is not part of GNU Emacs.
+
+;; This file is free software; you can redistribute it and/or modify
+;; it under the terms of the MIT license (see COPYING).
+
 ;;; Commentary:
 ;; The project is hosted at htts://github.com/pmiddend/org-rtm
 ;; The latest version, and all the relevant information can be found there.
