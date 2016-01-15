@@ -580,7 +580,7 @@ application:\n\n")
 
 (defun rtm-comma-separated-list (lis)
   "turn a list into a comma separated string (and flatten it)"
-  (cl-flet ((comsep (lis first)
+  (cl-labels ((comsep (lis first)
                  (if (null lis)
                      ""
                    (concat (if first "" ",")
