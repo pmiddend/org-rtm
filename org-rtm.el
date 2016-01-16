@@ -2,6 +2,8 @@
 ;; Copyright (c) 2016 Philipp Middendorf
 ;; Author: Philipp Middendorf <pmidden@secure.mailbox.org>
 ;; Created: 15 Jan 2016
+;; Version: 0.1
+;; Package-Requires: ((org "7") (rtm "0.1"))
 ;; Keywords: outlines, data
 ;; Homepage: https://github.com/pmiddend/org-rtm
 
