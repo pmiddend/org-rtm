@@ -16,12 +16,15 @@
 ;; it under the terms of the MIT license (see COPYING).
 
 ;;; Commentary:
+;; Simple import/export from rememberthemilk to org-mode
+;;
 ;; The project is hosted at htts://github.com/pmiddend/org-rtm
 ;; The latest version, and all the relevant information can be found there.
+;;; Code:
 (require 'rtm)
 (require 'org)
 
-;;; Code:
+
 (defgroup org-rtm ()
   "Retrieve and complete tasks from rememberthemilk.com and convert them to org-mode"
   :group 'external
